@@ -29,18 +29,33 @@ import {
 import {
   ArrowRight,
   BarChart3,
+  Bell,
   Bot,
   ChevronDown,
   CircleDollarSign,
   CheckCircle2,
+  Copy,
   Crown,
+  GitBranch,
+  Hand,
+  HelpCircle,
+  Inbox,
+  LayoutDashboard,
   MessageCircle,
+  MousePointer2,
+  Plus,
   Play,
+  Puzzle,
+  RefreshCcw,
+  Search,
   Send,
   Settings,
   ShieldCheck,
+  Sparkles,
+  Trash2,
   Users,
   Workflow,
+  X,
   Zap
 } from "lucide-react";
 import {
@@ -64,7 +79,7 @@ export function App() {
       <Route path="/landing" element={<LandingPage />} />
       <Route path="/plans" element={<PlansPage />} />
       <Route path="/contact" element={<ContactPage />} />
-      <Route path="/platform" element={<PlatformPage />} />
+      <Route path="/platform" element={<PlatformPageShowcase />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
@@ -84,7 +99,13 @@ function LandingPage() {
           </video>
           <div className="hero-overlay" />
           <div className="hero-content">
-            <h1>Bots Channel</h1>
+            <span className="hero-badge">
+              <span className="dot" />
+              Inteligência conversacional · showcase
+            </span>
+            <h1>
+              Bots <span className="accent">Channel</span>
+            </h1>
             <p>
               Chatbots e atendimento centralizado para transformar conversas em vendas, suporte
               e relacionamento em escala.
@@ -863,6 +884,203 @@ const initialPlatformEdges: Edge[] = [
   { id: "edge-human-inbox", source: "human", target: "inbox", markerEnd: { type: MarkerType.ArrowClosed } }
 ];
 
+const supportPlatformNodes: Node<BuilderNodeData>[] = [
+  {
+    id: "support-entry",
+    type: "builder",
+    position: { x: 70, y: 240 },
+    data: {
+      title: "Entrada de suporte",
+      type: "trigger",
+      note: "Widget, email e WhatsApp",
+      details: "Solicitacoes entram com canal, cliente e urgencia basica antes da triagem automatica.",
+      metrics: ["3 entradas", "sla inicial", "cliente reconhecido"]
+    }
+  },
+  {
+    id: "support-triage",
+    type: "builder",
+    position: { x: 360, y: 120 },
+    data: {
+      title: "Classifica urgencia",
+      type: "logic",
+      note: "Prioridade e categoria",
+      details: "O bot entende se e bug, financeiro, acesso ou onboarding para mandar ao lugar certo.",
+      metrics: ["prioridade", "categoria", "tag automatica"]
+    }
+  },
+  {
+    id: "support-answer",
+    type: "builder",
+    position: { x: 360, y: 380 },
+    data: {
+      title: "Base de resposta",
+      type: "message",
+      note: "Macros e ajuda rapida",
+      details: "Quando ha artigo ou macro pronta, o bot responde antes de envolver o time.",
+      metrics: ["faq", "macro", "tempo poupado"]
+    }
+  },
+  {
+    id: "support-ticket",
+    type: "builder",
+    position: { x: 700, y: 120 },
+    data: {
+      title: "Abre ticket",
+      type: "action",
+      note: "Zendesk / Slack",
+      details: "O ticket nasce com resumo, prioridade e cliente para nao perder tempo no handoff.",
+      metrics: ["ticket criado", "time avisado", "resumo enviado"]
+    }
+  },
+  {
+    id: "support-human",
+    type: "builder",
+    position: { x: 700, y: 360 },
+    data: {
+      title: "Especialista assume",
+      type: "handoff",
+      note: "N1 ou N2",
+      details: "O bot chama o humano apenas quando o caso exige validacao, excecao ou continuidade manual.",
+      metrics: ["owner", "fila", "sla interno"]
+    }
+  },
+  {
+    id: "support-inbox",
+    type: "builder",
+    position: { x: 1030, y: 240 },
+    data: {
+      title: "Inbox de suporte",
+      type: "inbox",
+      note: "Fila priorizada",
+      details: "A operacao enxerga a fila consolidada, com prioridade visual e contexto pronto.",
+      metrics: ["fila priorizada", "historico", "proximo passo"]
+    }
+  }
+];
+
+const supportPlatformEdges: Edge[] = [
+  { id: "edge-support-entry-triage", source: "support-entry", target: "support-triage", markerEnd: { type: MarkerType.ArrowClosed } },
+  { id: "edge-support-entry-answer", source: "support-entry", target: "support-answer", markerEnd: { type: MarkerType.ArrowClosed } },
+  { id: "edge-support-triage-ticket", source: "support-triage", target: "support-ticket", markerEnd: { type: MarkerType.ArrowClosed } },
+  { id: "edge-support-triage-human", source: "support-triage", target: "support-human", markerEnd: { type: MarkerType.ArrowClosed } },
+  { id: "edge-support-answer-human", source: "support-answer", target: "support-human", markerEnd: { type: MarkerType.ArrowClosed } },
+  { id: "edge-support-ticket-inbox", source: "support-ticket", target: "support-inbox", markerEnd: { type: MarkerType.ArrowClosed } },
+  { id: "edge-support-human-inbox", source: "support-human", target: "support-inbox", markerEnd: { type: MarkerType.ArrowClosed } }
+];
+
+const demoPlatformNodes: Node<BuilderNodeData>[] = [
+  {
+    id: "demo-entry",
+    type: "builder",
+    position: { x: 80, y: 260 },
+    data: {
+      title: "Pedido de demo",
+      type: "trigger",
+      note: "Site, ads e outbound",
+      details: "O lead entra por formulario, campanha ou canal direto e inicia o fluxo comercial.",
+      metrics: ["origem", "utm", "segmento"]
+    }
+  },
+  {
+    id: "demo-fit",
+    type: "builder",
+    position: { x: 370, y: 110 },
+    data: {
+      title: "Valida fit",
+      type: "logic",
+      note: "ICP e momento",
+      details: "O bot identifica tamanho, momento e interesse para decidir prioridade comercial.",
+      metrics: ["segmento", "maturidade", "score"]
+    }
+  },
+  {
+    id: "demo-qualify",
+    type: "builder",
+    position: { x: 360, y: 390 },
+    data: {
+      title: "Perguntas de contexto",
+      type: "message",
+      note: "Objetivo e operacao",
+      details: "Antes da agenda, o bot coleta canais, volume e dores do lead.",
+      metrics: ["volume", "time", "objetivo"]
+    }
+  },
+  {
+    id: "demo-crm",
+    type: "builder",
+    position: { x: 710, y: 110 },
+    data: {
+      title: "Empurra pro CRM",
+      type: "action",
+      note: "Lead e agenda",
+      details: "O lead ja entra com etapa, resumo e owner sugerido no CRM.",
+      metrics: ["owner", "etapa", "agenda"]
+    }
+  },
+  {
+    id: "demo-sales",
+    type: "builder",
+    position: { x: 710, y: 390 },
+    data: {
+      title: "SDR assume",
+      type: "handoff",
+      note: "Contato comercial",
+      details: "Quando o lead esta pronto, o humano entra para confirmar contexto e seguir para demo.",
+      metrics: ["sdr", "horario", "resumo"]
+    }
+  },
+  {
+    id: "demo-inbox",
+    type: "builder",
+    position: { x: 1030, y: 250 },
+    data: {
+      title: "Fila comercial",
+      type: "inbox",
+      note: "Pronto para follow-up",
+      details: "A fila finaliza com lead qualificado e proxima acao pronta para o comercial.",
+      metrics: ["fila", "cadencia", "responsavel"]
+    }
+  }
+];
+
+const demoPlatformEdges: Edge[] = [
+  { id: "edge-demo-entry-fit", source: "demo-entry", target: "demo-fit", markerEnd: { type: MarkerType.ArrowClosed } },
+  { id: "edge-demo-entry-qualify", source: "demo-entry", target: "demo-qualify", markerEnd: { type: MarkerType.ArrowClosed } },
+  { id: "edge-demo-fit-crm", source: "demo-fit", target: "demo-crm", markerEnd: { type: MarkerType.ArrowClosed } },
+  { id: "edge-demo-fit-sales", source: "demo-fit", target: "demo-sales", markerEnd: { type: MarkerType.ArrowClosed } },
+  { id: "edge-demo-qualify-sales", source: "demo-qualify", target: "demo-sales", markerEnd: { type: MarkerType.ArrowClosed } },
+  { id: "edge-demo-crm-inbox", source: "demo-crm", target: "demo-inbox", markerEnd: { type: MarkerType.ArrowClosed } },
+  { id: "edge-demo-sales-inbox", source: "demo-sales", target: "demo-inbox", markerEnd: { type: MarkerType.ArrowClosed } }
+];
+
+const platformFlowPresets = [
+  {
+    key: "lead-qualification",
+    title: "Lead qualification",
+    subtitle: "Comercial",
+    description: "Fluxo principal de qualificacao com triagem, CRM e handoff comercial.",
+    nodes: initialPlatformNodes,
+    edges: initialPlatformEdges
+  },
+  {
+    key: "support-initial",
+    title: "Suporte inicial",
+    subtitle: "Atendimento",
+    description: "Entrada de suporte com classificacao, resposta guiada e fila priorizada.",
+    nodes: supportPlatformNodes,
+    edges: supportPlatformEdges
+  },
+  {
+    key: "demo-request",
+    title: "Demo request",
+    subtitle: "Pipeline",
+    description: "Pedido de demo com fit, contexto e passagem pronta para o SDR.",
+    nodes: demoPlatformNodes,
+    edges: demoPlatformEdges
+  }
+] as const;
+
 const builderSections = [
   {
     key: "overview",
@@ -930,12 +1148,30 @@ const builderSectionContent = {
 } as const;
 
 function BuilderFlowNode({ data, selected }: NodeProps<Node<BuilderNodeData>>) {
+  const NodeIcon =
+    data.type === "trigger"
+      ? Zap
+      : data.type === "logic"
+        ? GitBranch
+        : data.type === "message"
+          ? MessageCircle
+          : data.type === "action"
+            ? Puzzle
+            : data.type === "handoff"
+              ? Users
+              : Inbox;
+
   return (
     <div className={selected ? `builder-flow-node ${builderNodeTone[data.type]} selected` : `builder-flow-node ${builderNodeTone[data.type]}`}>
       {data.type !== "trigger" ? <Handle className="builder-flow-handle" type="target" position={Position.Left} /> : null}
       <div className="builder-flow-node-shell">
-        {data.type === "trigger" ? <b className="builder-node-badge">Start</b> : data.type === "inbox" ? <b className="builder-node-badge end">End</b> : null}
-        <span>{data.type}</span>
+        <div className="builder-flow-node-top">
+          <div className="builder-flow-node-type">
+            <NodeIcon size={14} />
+            <span>{data.type}</span>
+          </div>
+          {data.type === "trigger" ? <b className="builder-node-badge">Start</b> : data.type === "inbox" ? <b className="builder-node-badge end">End</b> : null}
+        </div>
         <strong>{data.title}</strong>
         <em>{data.note}</em>
       </div>
@@ -1512,6 +1748,747 @@ function MenuIcon({ item }: { item: string }) {
     return <Settings size={16} />;
   }
   return <MessageCircle size={16} />;
+}
+
+function PlatformStudioMenuIcon({ item }: { item: string }) {
+  if (item === "Overview") {
+    return <LayoutDashboard size={16} />;
+  }
+  if (item === "Flows") {
+    return <GitBranch size={16} />;
+  }
+  if (item === "Channels") {
+    return <Inbox size={16} />;
+  }
+  if (item === "Integrations") {
+    return <Puzzle size={16} />;
+  }
+  if (item === "Team") {
+    return <Users size={16} />;
+  }
+  return <Sparkles size={16} />;
+}
+
+function PlatformPageShowcase() {
+  const [demoUnlocked, setDemoUnlocked] = useState(false);
+  const [mobileTab, setMobileTab] = useState<"flow" | "node" | "queue">("flow");
+  const [builderNodes, setBuilderNodes, onNodesChange] = useNodesState(initialPlatformNodes);
+  const [builderEdges, setBuilderEdges, onEdgesChange] = useEdgesState(initialPlatformEdges);
+  const [selectedNode, setSelectedNode] = useState(initialPlatformNodes[1]?.id ?? "triage");
+  const [activeFlowKey, setActiveFlowKey] = useState<(typeof platformFlowPresets)[number]["key"]>("lead-qualification");
+  const [activeNav, setActiveNav] = useState("flows");
+  const [isFlowLoading, setIsFlowLoading] = useState(false);
+  const [isSectionLoading, setIsSectionLoading] = useState(false);
+  const [hasCanvasInteracted, setHasCanvasInteracted] = useState(false);
+  const [collapsedSections, setCollapsedSections] = useState({
+    inspector: false,
+    connections: false,
+    queue: false
+  });
+  const [nodeMenu, setNodeMenu] = useState<{ nodeId?: string; x: number; y: number } | null>(null);
+  const selectedFlowNode = builderNodes.find((node) => node.id === selectedNode) ?? builderNodes[0];
+  const activeSectionData = builderSectionContent[activeNav as keyof typeof builderSectionContent] ?? builderSectionContent.flows;
+  const activeFlowPreset = platformFlowPresets.find((flow) => flow.key === activeFlowKey) ?? platformFlowPresets[0];
+  const resolveNodeTitle = (nodeId: string) => builderNodes.find((node) => node.id === nodeId)?.data.title ?? nodeId;
+  const connectedEdges = builderEdges.filter((edge) => edge.source === selectedNode || edge.target === selectedNode);
+  const quickStats = [
+    { label: "Nodes", value: String(builderNodes.length) },
+    { label: "Conexoes", value: String(builderEdges.length) },
+    { label: "Canais", value: "3" }
+  ];
+  const inspectorRuleLabel =
+    selectedFlowNode.data.type === "logic"
+      ? "Logic rules"
+      : selectedFlowNode.data.type === "trigger"
+        ? "Entrada monitorada"
+        : selectedFlowNode.data.type === "handoff"
+          ? "Condicoes de handoff"
+          : "Parametros do node";
+  const isFlowsView = activeNav === "flows";
+
+  const updateSelectedNode = (patch: Partial<BuilderNodeData>) => {
+    setBuilderNodes((current) =>
+      current.map((node) => (node.id === selectedNode ? { ...node, data: { ...node.data, ...patch } } : node))
+    );
+    setHasCanvasInteracted(true);
+  };
+
+  const toggleSection = (key: keyof typeof collapsedSections) => {
+    setCollapsedSections((current) => ({ ...current, [key]: !current[key] }));
+  };
+
+  const addNode = () => {
+    const nextIndex = builderNodes.length + 1;
+    const id = `custom-${nextIndex}`;
+    const nextNode: Node<BuilderNodeData> = {
+      id,
+      type: "builder",
+      position: {
+        x: 240 + (nextIndex % 4) * 220,
+        y: 120 + (nextIndex % 3) * 180
+      },
+      data: {
+        title: `Novo node ${nextIndex}`,
+        type: "message",
+        note: "Mensagem editavel",
+        details: "Edite este node para definir texto, logica ou destino do fluxo.",
+        metrics: ["novo", "sem conexao", "rascunho"]
+      }
+    };
+    setBuilderNodes((current) => [...current, nextNode]);
+    setSelectedNode(id);
+    setMobileTab("node");
+    setHasCanvasInteracted(true);
+  };
+
+  const duplicateSelectedNode = () => {
+    const sourceNode = builderNodes.find((node) => node.id === selectedNode);
+    if (!sourceNode) return;
+
+    const nextIndex = builderNodes.length + 1;
+    const id = `custom-${nextIndex}`;
+    const duplicatedNode: Node<BuilderNodeData> = {
+      ...sourceNode,
+      id,
+      position: {
+        x: sourceNode.position.x + 80,
+        y: sourceNode.position.y + 60
+      },
+      data: {
+        ...sourceNode.data,
+        title: `${sourceNode.data.title} copia`
+      }
+    };
+
+    setBuilderNodes((current) => [...current, duplicatedNode]);
+    setSelectedNode(id);
+    setNodeMenu(null);
+    setHasCanvasInteracted(true);
+  };
+
+  const removeSelectedNode = () => {
+    if (builderNodes.length <= 1) return;
+    setBuilderNodes((current) => current.filter((node) => node.id !== selectedNode));
+    setBuilderEdges((current) => current.filter((edge) => edge.source !== selectedNode && edge.target !== selectedNode));
+    const fallbackNode = builderNodes.find((node) => node.id !== selectedNode);
+    if (fallbackNode) {
+      setSelectedNode(fallbackNode.id);
+    }
+    setNodeMenu(null);
+    setHasCanvasInteracted(true);
+  };
+
+  const onConnect = (connection: Connection) => {
+    setBuilderEdges((current) =>
+      addEdge(
+        {
+          ...connection,
+          id: `edge-${connection.source}-${connection.target}-${current.length + 1}`,
+          markerEnd: { type: MarkerType.ArrowClosed }
+        },
+        current
+      )
+    );
+    setHasCanvasInteracted(true);
+  };
+
+  const disconnectEdge = (edgeId: string) => {
+    setBuilderEdges((current) => current.filter((edge) => edge.id !== edgeId));
+    setHasCanvasInteracted(true);
+  };
+
+  const resetFlow = () => {
+    setBuilderNodes(activeFlowPreset.nodes);
+    setBuilderEdges(activeFlowPreset.edges);
+    setSelectedNode(activeFlowPreset.nodes[1]?.id ?? activeFlowPreset.nodes[0]?.id ?? "triage");
+    setMobileTab("flow");
+    setNodeMenu(null);
+    setHasCanvasInteracted(false);
+  };
+
+  const loadFlowPreset = (flowKey: (typeof platformFlowPresets)[number]["key"]) => {
+    const nextFlow = platformFlowPresets.find((flow) => flow.key === flowKey);
+    if (!nextFlow) return;
+    setActiveFlowKey(flowKey);
+    setIsFlowLoading(true);
+    setHasCanvasInteracted(false);
+    window.setTimeout(() => {
+      setBuilderNodes(nextFlow.nodes);
+      setBuilderEdges(nextFlow.edges);
+      setSelectedNode(nextFlow.nodes[1]?.id ?? nextFlow.nodes[0]?.id ?? "triage");
+      setNodeMenu(null);
+      setMobileTab("flow");
+      setIsFlowLoading(false);
+    }, 650);
+  };
+
+  const handleNavChange = (nextNav: string) => {
+    if (nextNav === activeNav) return;
+    setIsSectionLoading(true);
+    window.setTimeout(() => {
+      setActiveNav(nextNav);
+      setMobileTab("flow");
+      setNodeMenu(null);
+      setIsSectionLoading(false);
+    }, 320);
+  };
+
+  if (!demoUnlocked) {
+    return (
+      <div className="platform-login-screen">
+        <div className="platform-login-brand">
+          <div className="platform-login-brand-copy">
+            <h1>Bots Channel</h1>
+            <p>Your channel to valuable client relationships.</p>
+          </div>
+          <img className="platform-login-mark" src="/assets/platform/bots-channel-logo.svg" alt="Bots Channel" />
+        </div>
+
+        <div className="platform-login-panel">
+          <div className="platform-login-panel-head">
+            <span># Login</span>
+          </div>
+
+          <div className="platform-legacy-form" aria-label="Login antigo desativado">
+            <label className="platform-legacy-field">
+              <span>Username</span>
+              <input type="text" value="botschannel-demo" readOnly />
+            </label>
+            <label className="platform-legacy-field">
+              <span>Password</span>
+              <input type="password" value="123456789" readOnly />
+            </label>
+          </div>
+
+          <div className="platform-legacy-error">
+            <span>Login desativado. Use Enter demo para abrir a plataforma em modo showcase.</span>
+          </div>
+
+          <button type="button" className="platform-legacy-enter" onClick={() => setDemoUnlocked(true)}>
+            Enter demo
+            <Play size={18} />
+          </button>
+
+          <NavLink className="platform-legacy-secondary" to="/contact">
+            Equipe
+          </NavLink>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="platform-app-shell platform-app-shell-stitch">
+      <div className="platform-studio-layout">
+        <aside className={mobileTab === "flow" ? "platform-studio-sidebar active-mobile" : "platform-studio-sidebar"}>
+          <div className="platform-studio-sidebar-scroll">
+            <div className="platform-studio-brand">
+              <div className="platform-studio-brand-mark">
+                <img src="/assets/platform/bots-channel-logo.svg" alt="Bots Channel" />
+              </div>
+              <div>
+                <strong>Bots Channel</strong>
+                <span>Platform showcase</span>
+              </div>
+            </div>
+
+            <button type="button" className="platform-studio-cta" onClick={addNode}>
+              <Plus size={18} />
+              Novo fluxo logico
+            </button>
+
+            <nav className="platform-studio-nav">
+              {builderSections.map((section) => (
+                <button
+                  key={section.key}
+                  type="button"
+                  className={activeNav === section.key ? "platform-studio-nav-link active" : "platform-studio-nav-link"}
+                  onClick={() => handleNavChange(section.key)}
+                >
+                  <PlatformStudioMenuIcon item={section.label} />
+                  <span>{section.label}</span>
+                </button>
+              ))}
+            </nav>
+
+            <section className="platform-studio-context">
+              <span>{activeSectionData.title}</span>
+              <p>{activeSectionData.description}</p>
+              <div className="platform-studio-stats">
+                {quickStats.map((item) => (
+                  <div key={item.label}>
+                    <strong>{item.value}</strong>
+                    <span>{item.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {activeNav === "flows" ? (
+                <div className="platform-flow-preset-list">
+                  {platformFlowPresets.map((flow) => (
+                    <button
+                      key={flow.key}
+                      type="button"
+                      className={activeFlowKey === flow.key ? "platform-flow-preset-card active" : "platform-flow-preset-card"}
+                      onClick={() => loadFlowPreset(flow.key)}
+                    >
+                      <div>
+                        <strong>{flow.title}</strong>
+                        <span>{flow.subtitle}</span>
+                      </div>
+                      <em>{flow.description}</em>
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+            </section>
+
+            <div className="platform-studio-user">
+              <div className="platform-studio-user-avatar">LD</div>
+              <div>
+                <strong>Lucas Henrique Diniz</strong>
+                <span>Legacy operator</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <section className="platform-studio-main">
+          <header className="platform-studio-topbar">
+            <div className="platform-studio-search">
+              <Search size={16} />
+              <input type="text" value={selectedFlowNode.data.title} readOnly aria-label="Buscar node ou fluxo" />
+            </div>
+
+            <div className="platform-studio-title">
+              <strong>Bots Channel Platform</strong>
+              <span>{activeNav === "flows" ? activeFlowPreset.title : activeSectionData.title}</span>
+            </div>
+
+            <div className="platform-studio-topbar-actions">
+              <button type="button" aria-label="Notificacoes">
+                <Bell size={18} />
+              </button>
+              <button type="button" aria-label="Ajuda">
+                <HelpCircle size={18} />
+              </button>
+              <NavLink to="/contact" aria-label="Equipe">
+                <Users size={18} />
+              </NavLink>
+            </div>
+          </header>
+
+          <div className="platform-mobile-tabs">
+            <button type="button" className={mobileTab === "flow" ? "active" : ""} onClick={() => setMobileTab("flow")}>Fluxo</button>
+            <button type="button" className={mobileTab === "node" ? "active" : ""} onClick={() => setMobileTab("node")}>Node</button>
+            <button type="button" className={mobileTab === "queue" ? "active" : ""} onClick={() => setMobileTab("queue")}>Fila</button>
+          </div>
+
+          <div className="platform-studio-workspace">
+            <main className="platform-studio-canvas-wrap">
+              {isSectionLoading ? (
+                <section className="platform-section-loading">
+                  <div className="platform-section-loading-bar" />
+                  <strong>{activeSectionData.title}</strong>
+                  <span>Carregando a experiencia desta area da plataforma.</span>
+                </section>
+              ) : isFlowsView ? (
+                <section className="platform-studio-canvas-card">
+                  <div className="platform-studio-canvas-header">
+                    <div>
+                      <span>Flow builder</span>
+                      <strong>{activeFlowPreset.title}</strong>
+                    </div>
+                    {isFlowLoading ? <p>Carregando o fluxo selecionado...</p> : !hasCanvasInteracted ? <p>Use o canvas para ligar, mover e editar nodes localmente.</p> : null}
+                  </div>
+
+                  <div className="platform-studio-canvas-shell">
+                    <div className="platform-studio-toolrail">
+                      <button type="button" className="active" onClick={() => setMobileTab("flow")} aria-label="Canvas">
+                        <MousePointer2 size={17} />
+                      </button>
+                      <button type="button" onClick={addNode} aria-label="Adicionar node">
+                        <Plus size={17} />
+                      </button>
+                      <button type="button" onClick={duplicateSelectedNode} aria-label="Duplicar node">
+                        <Copy size={17} />
+                      </button>
+                      <button type="button" onClick={resetFlow} aria-label="Resetar fluxo">
+                        <RefreshCcw size={17} />
+                      </button>
+                      <button type="button" aria-label="Mover canvas">
+                        <Hand size={17} />
+                      </button>
+                    </div>
+
+                    <div className="platform-canvas-stage platform-canvas-stage-stitch" onClick={() => setNodeMenu(null)}>
+                      <div className="builder-canvas-glow builder-canvas-glow-a" />
+                      <div className="builder-canvas-glow builder-canvas-glow-b" />
+                      {isFlowLoading ? (
+                        <div className="platform-flow-loading">
+                          <div className="platform-flow-loading-bar" />
+                          <strong>{activeFlowPreset.title}</strong>
+                          <span>Sincronizando nodes, conexoes e contexto do fluxo.</span>
+                        </div>
+                      ) : null}
+                      <ReactFlow
+                        className="flow-reactflow flow-reactflow-stitch"
+                        nodes={builderNodes}
+                        edges={builderEdges}
+                        nodeTypes={builderNodeTypes}
+                        onNodesChange={(changes) => {
+                          onNodesChange(changes);
+                          if (changes.length) setHasCanvasInteracted(true);
+                        }}
+                        onEdgesChange={onEdgesChange}
+                        onConnect={onConnect}
+                        onNodeClick={(_, node) => {
+                          setSelectedNode(node.id);
+                          setMobileTab("node");
+                          setHasCanvasInteracted(true);
+                        }}
+                        onNodeContextMenu={(event, node) => {
+                          event.preventDefault();
+                          setSelectedNode(node.id);
+                          setNodeMenu({
+                            nodeId: node.id,
+                            x: event.clientX,
+                            y: event.clientY
+                          });
+                          setHasCanvasInteracted(true);
+                        }}
+                        onPaneContextMenu={(event) => {
+                          event.preventDefault();
+                          setNodeMenu({
+                            x: event.clientX,
+                            y: event.clientY
+                          });
+                        }}
+                        fitView
+                        fitViewOptions={{ padding: 0.2 }}
+                        defaultEdgeOptions={{
+                          type: "smoothstep",
+                          animated: false,
+                          style: { strokeWidth: 2.8 }
+                        }}
+                        proOptions={{ hideAttribution: true }}
+                      >
+                        <defs>
+                          <linearGradient id="builder-edge-gradient-showcase" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#f4d385" />
+                            <stop offset="100%" stopColor="#e2b44a" />
+                          </linearGradient>
+                        </defs>
+                        <Background color="rgba(236, 209, 144, 0.14)" gap={20} size={1.2} />
+                        <MiniMap
+                          pannable
+                          zoomable
+                          className="builder-minimap"
+                          nodeColor={(node) => {
+                            const type = (node.data as BuilderNodeData).type;
+                            if (type === "trigger") return "#f4d385";
+                            if (type === "handoff") return "#f38ba8";
+                            if (type === "action") return "#74a7ff";
+                            if (type === "inbox") return "#52d6a1";
+                            return "#7d8597";
+                          }}
+                        />
+                        <Controls className="flow-controls" showInteractive={false} />
+                      </ReactFlow>
+
+                      {nodeMenu ? (
+                        <div className="platform-node-menu platform-node-menu-stitch" style={{ left: nodeMenu.x, top: nodeMenu.y }}>
+                          {nodeMenu.nodeId ? (
+                            <>
+                              <button type="button" onClick={() => {
+                                setMobileTab("node");
+                                setNodeMenu(null);
+                              }}>
+                                Ver node
+                              </button>
+                              <button type="button" onClick={duplicateSelectedNode}>
+                                Duplicar
+                              </button>
+                              <button type="button" onClick={removeSelectedNode}>
+                                Remover
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button type="button" onClick={() => {
+                                addNode();
+                                setNodeMenu(null);
+                              }}>
+                                Adicionar node
+                              </button>
+                              <button type="button" onClick={() => {
+                                resetFlow();
+                                setNodeMenu(null);
+                              }}>
+                                Resetar fluxo
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                </section>
+              ) : (
+                <section className="platform-screen-card">
+                  <div className="platform-screen-header">
+                    <div>
+                      <span>{activeSectionData.title}</span>
+                      <strong>{activeSectionData.description}</strong>
+                    </div>
+                    <div className="platform-screen-actions">
+                      {activeSectionData.cards.map((card) => (
+                        <span key={card}>{card}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className={`platform-screen-grid platform-screen-grid-${activeNav}`}>
+                    {activeNav === "overview" ? (
+                      <>
+                        <article className="platform-screen-panel hero">
+                          <strong>Resumo executivo</strong>
+                          <p>Volume, status dos canais e handoffs ativos em um painel que o time abria antes de mexer no fluxo.</p>
+                          <div className="platform-kpi-row">
+                            <div><b>184</b><span>Conversas abertas</span></div>
+                            <div><b>63%</b><span>Resolvidas pelo bot</span></div>
+                            <div><b>27</b><span>Fluxos ativos</span></div>
+                          </div>
+                        </article>
+                        <article className="platform-screen-panel">
+                          <strong>Fila viva</strong>
+                          <ul className="platform-mini-list">
+                            {inboxRows.slice(0, 3).map((row) => (
+                              <li key={row.customer}><span>{row.customer}</span><em>{row.topic}</em></li>
+                            ))}
+                          </ul>
+                        </article>
+                        <article className="platform-screen-panel">
+                          <strong>Saude da operacao</strong>
+                          <div className="platform-health-stack">
+                            <div><span>WhatsApp</span><b>Online</b></div>
+                            <div><span>Instagram</span><b>Sem fila</b></div>
+                            <div><span>CRM sync</span><b>Estavel</b></div>
+                          </div>
+                        </article>
+                      </>
+                    ) : null}
+
+                    {activeNav === "channels" ? (
+                      <>
+                        <article className="platform-screen-panel hero">
+                          <strong>Entradas conectadas</strong>
+                          <p>Os canais entram no mesmo trilho e carregam origem, score e contexto antes do inbox.</p>
+                        </article>
+                        {["WhatsApp oficial", "Widget de site", "Instagram DM"].map((item, index) => (
+                          <article key={item} className="platform-screen-panel">
+                            <strong>{item}</strong>
+                            <p>{index === 0 ? "Canal com maior volume e triagem inicial." : index === 1 ? "Capta lead e pedido de demo no site." : "Entrada social com FAQ e handoff."}</p>
+                          </article>
+                        ))}
+                      </>
+                    ) : null}
+
+                    {activeNav === "integrations" ? (
+                      <>
+                        <article className="platform-screen-panel hero">
+                          <strong>Integracoes do fluxo</strong>
+                          <p>Contexto nao morria no bot: CRM, suporte e alertas recebiam dados prontos no momento certo.</p>
+                        </article>
+                        {["HubSpot", "Zendesk", "Slack"].map((item, index) => (
+                          <article key={item} className="platform-screen-panel">
+                            <strong>{item}</strong>
+                            <p>{index === 0 ? "Lead, score e origem comercial." : index === 1 ? "Ticket com resumo e prioridade." : "Avisos internos para fila e excecao."}</p>
+                          </article>
+                        ))}
+                      </>
+                    ) : null}
+
+                    {activeNav === "team" ? (
+                      <>
+                        <article className="platform-screen-panel hero">
+                          <strong>Ownership e handoff</strong>
+                          <p>A plataforma distribuia atendimento por fila, especialidade e urgencia sem perder historico.</p>
+                        </article>
+                        {["Sales queue", "Support queue", "Ops owners"].map((item, index) => (
+                          <article key={item} className="platform-screen-panel">
+                            <strong>{item}</strong>
+                            <p>{index === 0 ? "Leads quentes e demos." : index === 1 ? "Casos com ticket ou continuidade." : "Aprovacoes, excecoes e monitoramento."}</p>
+                          </article>
+                        ))}
+                      </>
+                    ) : null}
+                  </div>
+                </section>
+              )}
+            </main>
+
+            <aside className={mobileTab === "node" && isFlowsView ? "platform-studio-inspector active-mobile" : "platform-studio-inspector"}>
+              <div className="platform-studio-inspector-scroll">
+                {!isFlowsView ? (
+                  <div className="platform-inspector-empty">
+                    <strong>{activeSectionData.title}</strong>
+                    <span>Abra `Flows` para selecionar um fluxo e editar nodes no builder.</span>
+                  </div>
+                ) : (
+                  <>
+                <div className="platform-studio-inspector-head">
+                  <div>
+                    <span>Node properties</span>
+                    <strong>{selectedFlowNode.data.title}</strong>
+                  </div>
+                  <button type="button" onClick={() => setMobileTab("flow")} aria-label="Fechar painel">
+                    <X size={18} />
+                  </button>
+                </div>
+
+                <section className="platform-studio-inspector-section">
+                  <button type="button" className="platform-block-toggle" onClick={() => toggleSection("inspector")}>
+                    <span>Node selecionado</span>
+                    <ChevronDown size={16} className={collapsedSections.inspector ? "collapsed" : ""} />
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {!collapsedSections.inspector ? (
+                      <motion.div
+                        className="platform-block-body"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <div className="builder-form builder-form-stitch">
+                          <label>
+                            <span>Node name</span>
+                            <input value={selectedFlowNode.data.title} onChange={(event) => updateSelectedNode({ title: event.target.value })} />
+                          </label>
+                          <label>
+                            <span>Tipo</span>
+                            <select value={selectedFlowNode.data.type} onChange={(event) => updateSelectedNode({ type: event.target.value as BuilderNodeType })}>
+                              <option value="trigger">Trigger</option>
+                              <option value="logic">Logic</option>
+                              <option value="message">Message</option>
+                              <option value="action">Action</option>
+                              <option value="handoff">Handoff</option>
+                              <option value="inbox">Inbox</option>
+                            </select>
+                          </label>
+                          <label>
+                            <span>Resumo</span>
+                            <input value={selectedFlowNode.data.note} onChange={(event) => updateSelectedNode({ note: event.target.value })} />
+                          </label>
+                          <label>
+                            <span>Descricao</span>
+                            <textarea value={selectedFlowNode.data.details} onChange={(event) => updateSelectedNode({ details: event.target.value })} />
+                          </label>
+                        </div>
+                      </motion.div>
+                    ) : null}
+                  </AnimatePresence>
+                </section>
+
+                <section className="platform-studio-inspector-section">
+                  <button type="button" className="platform-block-toggle" onClick={() => toggleSection("connections")}>
+                    <span>{inspectorRuleLabel}</span>
+                    <ChevronDown size={16} className={collapsedSections.connections ? "collapsed" : ""} />
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {!collapsedSections.connections ? (
+                      <motion.div
+                        className="platform-block-body"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <div className="builder-metrics-editor builder-metrics-editor-stitch">
+                          <span>{selectedFlowNode.data.type === "logic" ? "Logic rules" : "Parametros rapidos"}</span>
+                          <div className="builder-metrics">
+                            {selectedFlowNode.data.metrics.map((metric, index) => (
+                              <input
+                                key={`${selectedFlowNode.id}-${index}`}
+                                className="builder-metric-input"
+                                value={metric}
+                                onChange={(event) =>
+                                  updateSelectedNode({
+                                    metrics: selectedFlowNode.data.metrics.map((currentMetric, metricIndex) =>
+                                      metricIndex === index ? event.target.value : currentMetric
+                                    )
+                                  })
+                                }
+                              />
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="builder-edge-list builder-edge-list-stitch">
+                          <span>Conexoes do node</span>
+                          {connectedEdges.map((edge) => (
+                            <div key={edge.id} className="builder-edge-row">
+                              <strong>{resolveNodeTitle(edge.source)}</strong>
+                              <em>{resolveNodeTitle(edge.target)}</em>
+                              <button type="button" onClick={() => disconnectEdge(edge.id)}>remover</button>
+                            </div>
+                          ))}
+                        </div>
+                      </motion.div>
+                    ) : null}
+                  </AnimatePresence>
+                </section>
+
+                <section className={mobileTab === "queue" ? "platform-studio-inspector-section active-mobile" : "platform-studio-inspector-section"}>
+                  <button type="button" className="platform-block-toggle" onClick={() => toggleSection("queue")}>
+                    <span>Inbox preview</span>
+                    <ChevronDown size={16} className={collapsedSections.queue ? "collapsed" : ""} />
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {!collapsedSections.queue ? (
+                      <motion.div
+                        className="platform-block-body"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <div className="flow-queue-list flow-queue-list-stitch">
+                          {inboxRows.map((row) => (
+                            <div className="flow-queue-row" key={row.customer}>
+                              <div>
+                                <strong>{row.customer}</strong>
+                                <span>{row.channel} · {row.topic}</span>
+                              </div>
+                              <em>{row.status === "Bot qualified" ? "Qualificado" : row.status === "Human handoff" ? "Handoff" : "Em andamento"}</em>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="builder-inspector-actions builder-inspector-actions-stitch">
+                          <button type="button" className="builder-secondary-action" onClick={duplicateSelectedNode}>
+                            <Copy size={16} />
+                            Duplicar
+                          </button>
+                          <button type="button" className="builder-danger-action" onClick={removeSelectedNode}>
+                            <Trash2 size={16} />
+                            Remover
+                          </button>
+                        </div>
+                      </motion.div>
+                    ) : null}
+                  </AnimatePresence>
+                </section>
+                  </>
+                )}
+              </div>
+            </aside>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
 }
 
 function Footer() {
