@@ -1,23 +1,7 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { NavLink, Navigate, Route, Routes } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import {
-  addEdge,
-  Background,
-  Controls,
-  Handle,
-  MarkerType,
-  MiniMap,
-  Position,
-  ReactFlow,
-  type Connection,
-  type Edge,
-  type Node,
-  type NodeProps,
-  useEdgesState,
-  useNodesState
-} from "@xyflow/react";
-import "@xyflow/react/dist/style.css";
+import { MarkerType } from "@xyflow/react";
 import {
   siHubspot,
   siInstagram,
@@ -72,6 +56,8 @@ import {
   useCases
 } from "./data/botschannelData";
 
+const PlatformShowcasePage = lazy(() => import("./platform/PlatformShowcase"));
+
 export function App() {
   return (
     <Routes>
@@ -79,7 +65,14 @@ export function App() {
       <Route path="/landing" element={<LandingPage />} />
       <Route path="/plans" element={<PlansPage />} />
       <Route path="/contact" element={<ContactPage />} />
-      <Route path="/platform" element={<PlatformPageShowcase />} />
+      <Route
+        path="/platform"
+        element={(
+          <Suspense fallback={<PlatformRouteFallback />}>
+            <PlatformShowcasePage />
+          </Suspense>
+        )}
+      />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
@@ -2486,6 +2479,17 @@ function PlatformPageShowcase() {
             </aside>
           </div>
         </section>
+      </div>
+    </div>
+  );
+}
+
+function PlatformRouteFallback() {
+  return (
+    <div className="platform-route-fallback">
+      <div className="platform-route-fallback-card">
+        <strong>Carregando o showcase do platform</strong>
+        <span>Preparando fluxo, capitulos e contexto historico.</span>
       </div>
     </div>
   );
