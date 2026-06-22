@@ -10,7 +10,6 @@ import {
   MiniMap,
   Position,
   ReactFlow,
-  ViewportPortal,
   type Edge,
   type EdgeProps,
   type Node,
@@ -1253,7 +1252,6 @@ export default function PlatformShowcase() {
           ...edge,
           animated: false,
           type: "animatedConnector",
-          zIndex: 3,
           data: { active: isActive },
           className: isActive ? "platform-flow-edge active" : "platform-flow-edge",
           markerEnd: {
@@ -1266,28 +1264,6 @@ export default function PlatformShowcase() {
         };
       }),
     [activePreset]
-  );
-
-  const visibleFlowConnections = useMemo(
-    () =>
-      activePreset.edges.flatMap((edge) => {
-        const source = builderNodes.find((node) => node.id === edge.source);
-        const target = builderNodes.find((node) => node.id === edge.target);
-        if (!source || !target) return [];
-        const sourceX = source.position.x + 194;
-        const sourceY = source.position.y + 51;
-        const targetX = target.position.x;
-        const targetY = target.position.y + 51;
-        const middleX = sourceX + (targetX - sourceX) / 2;
-        return [{
-          id: edge.id,
-          active:
-            activePreset.highlightNodeIds.includes(edge.source) &&
-            activePreset.highlightNodeIds.includes(edge.target),
-          path: `M ${sourceX} ${sourceY} H ${middleX} V ${targetY} H ${targetX}`
-        }];
-      }),
-    [activePreset, builderNodes]
   );
 
   const activeChapterMeta =
@@ -1359,21 +1335,6 @@ export default function PlatformShowcase() {
             proOptions={{ hideAttribution: true }}
           >
             <Background color="rgba(148, 163, 184, 0.16)" gap={22} size={1} />
-            <ViewportPortal>
-              <svg className="platform-flow-visual-layer" width="1200" height="620" viewBox="0 0 1200 620" aria-hidden="true">
-                <defs>
-                  <marker id="platform-visible-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                    <path d="M 0 0 L 10 5 L 0 10 z" />
-                  </marker>
-                </defs>
-                {visibleFlowConnections.map((connection) => (
-                  <g key={connection.id} className={connection.active ? "active" : ""}>
-                    <path className="underlay" d={connection.path} />
-                    <path className="track" d={connection.path} markerEnd="url(#platform-visible-arrow)" />
-                  </g>
-                ))}
-              </svg>
-            </ViewportPortal>
             <MiniMap
               pannable
               zoomable

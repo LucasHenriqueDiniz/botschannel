@@ -5667,56 +5667,15 @@ section {
   overflow: visible !important;
 }
 
-.platform-saas .react-flow__viewport-portal {
-  z-index: 8;
-  pointer-events: none;
-}
-
-.platform-flow-visual-layer {
+.platform-saas .react-flow__edges > svg:has(> .react-flow__edge) {
   position: absolute;
   inset: 0;
-  z-index: 8;
+  min-width: 1200px;
+  width: 1200px;
+  max-width: none;
+  height: 620px;
   overflow: visible;
   pointer-events: none;
-}
-
-.platform-flow-visual-layer path {
-  fill: none;
-  vector-effect: non-scaling-stroke;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.platform-flow-visual-layer .underlay {
-  stroke: #526b8d;
-  stroke-width: 7;
-  opacity: 0.85;
-  filter: drop-shadow(0 0 5px rgba(82, 107, 141, 0.72));
-}
-
-.platform-flow-visual-layer .track {
-  stroke: #d6e4f7;
-  stroke-width: 3.5;
-  stroke-dasharray: 9 10;
-  animation: platform-flow-dash 1.15s linear infinite;
-}
-
-.platform-flow-visual-layer g.active .underlay {
-  stroke: #8e711d;
-  stroke-width: 8;
-  opacity: 1;
-  filter: drop-shadow(0 0 7px rgba(246, 201, 69, 0.7));
-}
-
-.platform-flow-visual-layer g.active .track {
-  stroke: #ffe16a;
-  stroke-width: 4;
-  stroke-dasharray: 12 9;
-}
-
-.platform-flow-visual-layer marker path {
-  fill: #ffe16a;
-  stroke: none;
 }
 
 @keyframes platform-flow-dash {
