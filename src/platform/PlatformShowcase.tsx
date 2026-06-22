@@ -687,14 +687,6 @@ function AnimatedConnectorEdge({
     <g className={active ? "platform-native-edge active" : "platform-native-edge"}>
       <path className="platform-native-edge-underlay" d={edgePath} />
       <BaseEdge id={id} path={edgePath} markerEnd={markerEnd} className="platform-native-edge-track" />
-      <polygon className="platform-native-edge-particle" points="-6,-4 6,0 -6,4">
-        <animateMotion dur={active ? "1.6s" : "2.4s"} repeatCount="indefinite" path={edgePath} rotate="auto" />
-      </polygon>
-      {active ? (
-        <polygon className="platform-native-edge-particle secondary" points="-5,-3.5 5,0 -5,3.5">
-          <animateMotion dur="1.6s" begin="-0.8s" repeatCount="indefinite" path={edgePath} rotate="auto" />
-        </polygon>
-      ) : null}
     </g>
   );
 }
@@ -1257,8 +1249,8 @@ export default function PlatformShowcase() {
           markerEnd: {
             type: MarkerType.ArrowClosed,
             color: isActive ? "#f6c945" : "#566174",
-            width: 18,
-            height: 18
+            width: 10,
+            height: 10
           },
           style: { stroke: isActive ? "#f6c945" : "#7b8798" }
         };

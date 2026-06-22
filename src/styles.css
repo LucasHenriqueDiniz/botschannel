@@ -5639,24 +5639,6 @@ section {
   opacity: 1;
 }
 
-.platform-native-edge-particle {
-  fill: #9aa6b7;
-  stroke: #0d131b;
-  stroke-width: 1.5;
-  vector-effect: non-scaling-stroke;
-  filter: drop-shadow(0 0 4px rgba(154, 166, 183, 0.75));
-}
-
-.platform-native-edge.active .platform-native-edge-particle {
-  fill: #fff0a6;
-  stroke: #9f7610;
-  filter: drop-shadow(0 0 6px rgba(246, 201, 69, 0.95));
-}
-
-.platform-native-edge-particle.secondary {
-  opacity: 0.7;
-}
-
 .platform-saas .react-flow__edges {
   overflow: visible;
   opacity: 1;
